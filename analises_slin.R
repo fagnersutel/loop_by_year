@@ -28,7 +28,7 @@ for(i in loop){
 dim(acidentes)
 acidentes$LONGITUDE = sub( '(?<=.{3})', '.', acidentes$LONGITUDE, perl=TRUE )
 acidentes$LATITUDE = sub( '(?<=.{3})', '.', acidentes$LATITUDE, perl=TRUE )
-acidentes = acidentes[acidentes$LONGITUDE < 0, ]
+#acidentes = acidentes[acidentes$LONGITUDE < 0, ]
 dim(acidentes)
 
 acidentes$LONGITUDE = as.numeric(as.character(acidentes$LONGITUDE))
@@ -56,4 +56,43 @@ leaflet(acidentes) %>%
              stroke = TRUE, fillOpacity = 0.8) %>% 
   addLegend("topright", colors= "blue", labels=paste("alvaras", sep = " "), title="Cluster")
  
- 
+
+acidentes =  acidentes[acidentes$TIPO_ACID == "ATROPELAMENTO", ]
+dim(acidentes)
+
+acidentes2015 = acidentes[acidentes$ANO == 2015, ]
+dim(acidentes2015)
+acidentes2016 = acidentes[acidentes$ANO == 2016, ]
+dim(acidentes2016)
+acidentes2017 = acidentes[acidentes$ANO == 2017, ]
+dim(acidentes2017)
+
+###"AV OSVALDO ARANHA"
+acidentesp2015 = acidentes2015[acidentes2015$LOG1 == "AV OSVALDO ARANHA", ]
+dim(acidentesp2015)
+acidentesp2016 = acidentes2016[acidentes2016$LOG1 == "AV OSVALDO ARANHA", ]
+dim(acidentesp2016)
+acidentesp2017 = acidentes2017[acidentes2017$LOG1 == "AV OSVALDO ARANHA", ]
+dim(acidentesp2017)
+
+
+library(leaflet)
+leaflet(acidentesp2015) %>%
+  addTiles(group="OSM") %>% 
+  addCircles(~LONGITUDE, ~LATITUDE, weight = 0.1, radius=30, color="red",
+             stroke = TRUE, fillOpacity = 0.8) %>% 
+  addLegend("topright", colors= "red", labels=paste("Atropelamentos", sep = " "), title="2015")
+
+
+leaflet(acidentesp2016) %>%
+  addTiles(group="OSM") %>% 
+  addCircles(~LONGITUDE, ~LATITUDE, weight = 0.1, radius=10, color="red",
+             stroke = TRUE, fillOpacity = 0.8) %>% 
+  addLegend("topright", colors= "red", labels=paste("Atropelamentos", sep = " "), title="2016")
+
+
+leaflet(acidentesp2017) %>%
+  addTiles(group="OSM") %>% 
+  addCircles(~LONGITUDE, ~LATITUDE, weight = 0.1, radius=10, color="red",
+             stroke = TRUE, fillOpacity = 0.8) %>% 
+  addLegend("topright", colors= "red", labels=paste("Atropelamentos", sep = " "), title="2017")
